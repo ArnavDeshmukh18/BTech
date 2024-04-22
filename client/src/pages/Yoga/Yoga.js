@@ -10,7 +10,7 @@ import Instructions from '../../components/Instrctions/Instructions';
 import './Yoga.css'
  
 import DropDown from '../../components/DropDown/DropDown';
-
+import { poseImages } from '../../utils/pose_images';
 import { POINTS, keypointConnections } from '../../utils/data';
 import { drawPoint, drawSegment } from '../../utils/helper'
 
@@ -29,7 +29,7 @@ let interval
 let flag = false
 
 
-function App() {
+function Yoga() {
   const webcamRef = useRef(null)
   const canvasRef = useRef(null)
 
@@ -118,6 +118,7 @@ function App() {
   }
 
   const runMovenet = async () => {
+    await tf.ready();
     const detectorConfig = {modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER};
     const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
     const poseClassifier = await tf.loadLayersModel('https://models.s3.jp-tok.cloud-object-storage.appdomain.cloud/model.json')
@@ -210,7 +211,6 @@ function App() {
 
     
 
-
   if(isStartPose) {
     return (
       <div className="yoga-container">
@@ -250,7 +250,10 @@ function App() {
           >
           </canvas>
         <div>
-           
+            <img 
+              src={poseImages[currentPose]}
+              className="pose-img"
+            />
           </div>
          
         </div>
@@ -282,4 +285,4 @@ function App() {
   )
 }
 
-export default App
+export default Yoga
