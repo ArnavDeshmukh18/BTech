@@ -4,11 +4,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import backend from '@tensorflow/tfjs-backend-webgl'
 import Webcam from 'react-webcam'
 import { count } from '../../utils/music'; 
- 
 import Instructions from '../../components/Instrctions/Instructions';
-
 import './Yoga.css'
- 
 import DropDown from '../../components/DropDown/DropDown';
 import { poseImages } from '../../utils/pose_images';
 import { POINTS, keypointConnections } from '../../utils/data';
@@ -18,27 +15,21 @@ import { drawPoint, drawSegment } from '../../utils/helper'
 
 let skeletonColor = 'rgb(255,255,255)'
 let poseList = [
-  'Tree', 'Chair', 'Cobra', 'Warrior', 'Dog',
-  'Shoulderstand', 'Traingle'
+  'Vrikshasana', 'Utkatasana', 'Bhujangasana', 'Virabhadrasana', 'Adhomukhasvanasana',
+  'Sarvangasana', 'Trikonasana'
 ]
-
 let interval
-
-// flag variable is used to help capture the time when AI just detect 
-// the pose as correct(probability more than threshold)
 let flag = false
-
-
 function Yoga() {
   const webcamRef = useRef(null)
   const canvasRef = useRef(null)
-
+  
 
   const [startingTime, setStartingTime] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [poseTime, setPoseTime] = useState(0)
   const [bestPerform, setBestPerform] = useState(0)
-  const [currentPose, setCurrentPose] = useState('Tree')
+  const [currentPose, setCurrentPose] = useState('Vrikshasana')
   const [isStartPose, setIsStartPose] = useState(false)
 
   
@@ -59,6 +50,10 @@ function Yoga() {
     setBestPerform(0)
   }, [currentPose])
 
+
+
+  
+
   const CLASS_NO = {
     Chair: 0,
     Cobra: 1,
@@ -66,7 +61,7 @@ function Yoga() {
     No_Pose: 3,
     Shoulderstand: 4,
     Traingle: 5,
-    Tree: 6,
+    Vrikshasana: 6,
     Warrior: 7,
   }
 
@@ -88,11 +83,8 @@ function Yoga() {
     pose_center_new = tf.broadcastTo(pose_center_new,
         [1, 17, 2]
       )
-      // return: shape(17,2)
     let d = tf.gather(tf.sub(landmarks, pose_center_new), 0, 0)
     let max_dist = tf.max(tf.norm(d,'euclidean', 0))
-
-    // normalize scale
     let pose_size = tf.maximum(tf.mul(torso_size, torso_size_multiplier), max_dist)
     return pose_size
   }
@@ -104,14 +96,13 @@ function Yoga() {
         [1, 17, 2]
       )
     landmarks = tf.sub(landmarks, pose_center)
-
+ 
     let pose_size = get_pose_size(landmarks)
     landmarks = tf.div(landmarks, pose_size)
     return landmarks
   }
 
   function landmarks_to_embedding(landmarks) {
-    // normalize landmarks 2D
     landmarks = normalize_pose_landmarks(tf.expandDims(landmarks, 0))
     let embedding = tf.reshape(landmarks, [1,34])
     return embedding
@@ -213,16 +204,9 @@ function Yoga() {
 
   if(isStartPose) {
     return (
-      <div className="yoga-container">
-        <div className="performance-container">
-            <div className="pose-performance">
-              <h4>Pose Time: {poseTime} s</h4>
-            </div>
-            <div className="pose-performance">
-              <h4>Best: {bestPerform} s</h4>
-            </div>
-          </div>
-        <div>
+      <div className="yoga-container-start">
+       
+        <div className='mid-container-start'>
           
           <Webcam 
           width='640px'
@@ -249,18 +233,27 @@ function Yoga() {
             }}
           >
           </canvas>
-        <div>
-            <img 
-              src={poseImages[currentPose]}
-              className="pose-img"
-            />
-          </div>
+
+          
+       
          
         </div>
-        <button
+        <div className='mid-column-container-start'>
+        
+            <div className="pose-performance">
+              <h4>Pose Time: {poseTime} s</h4>
+            </div>
+            <div className="pose-performance">
+              <h4>Best Time: {bestPerform} s</h4>
+            </div>
+           
+         
+          <button
           onClick={stopPose}
           className="secondary-btn"    
         >Stop Pose</button>
+        </div>
+       
       </div>
     )
   }
@@ -269,6 +262,7 @@ function Yoga() {
     <div
       className="yoga-container"
     >
+   
       <DropDown
         poseList={poseList}
         currentPose={currentPose}

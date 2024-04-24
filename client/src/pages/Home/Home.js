@@ -1,40 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import './Home.css'
+import './Home.css';
 
 export default function Home() {
-
+    const [user, setUser] = useState({});
+   
     return (
-        <div className='home-container'>
-            <div className='home-header'>
-                <h1 className='home-heading'>YogaIntelliJ</h1>
-                <Link to='/about'>
-                    <button 
-                        className="btn btn-secondary" 
-                        id="about-btn"
-                    >
-                        About
-                    </button>
+        <div className="container">
+        <div className='heading'><h1 style={{ fontSize: '49px', fontFamily: 'Poppins, sans-serif', fontWeight: 600 }}>YogaMate</h1>
+            <p style={{ fontSize: '24px', fontFamily: 'Poppins, sans-serif', fontStyle: 'italic'}}>AI Powered Health Companion</p></div>
+            
+            <div className="btn-section">
+                <Link to='/start'>
+                    <button className="btn start-btn">Let's Start</button>
                 </Link>
             </div>
-
-            <h1 className="description">A Yoga AI Trainer</h1>
-            <div className="home-main">
-                <div className="btn-section">
-                    <Link to='/start'>
-                        <button
-                            className="btn start-btn"
-                        >Let's Start</button>
-                    </Link>
-                    <Link to='/tutorials'>
-                        <button
-                            className="btn start-btn"
-                        >Tutorials</button>
-                    </Link>
-
-                </div>
-            </div>
         </div>
-    )
+    );
 }

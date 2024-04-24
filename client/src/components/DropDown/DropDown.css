@@ -1,54 +1,80 @@
-#pose-dropdown-btn:hover {
-    border-color: white;
-}
-/* #pose-dropdown-btn:active {
-    background-color: white;
-} */
+
+
 #pose-dropdown-btn {
     width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-
-
-.dropdown-container {
-    display: flex;
-    justify-content: center;
-}
+#pose-dropdown-btn:hover,
 #pose-dropdown-btn:focus {
-    background-color: white;
-    color: black;
-    box-shadow: none;
+    border-color: #ccc;
 }
-#pose-dropdown-btn:focus-within {
-    border-color: white;
+
+#pose-dropdown-btn:focus {
+    outline: none;
 }
-.dropdown-option {
-    background: url('../../utils/pose_images/chair.png');
+
+/* Styles for the dropdown menu container */
+.dropdown-container {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center; 
+   
 }
 
 .dropdown-custom-menu {
-    overflow: scroll;
-    height: 40vh;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 2px solid #ccc;
+    border-radius: 50px;
+    background-color:  rgba(255, 228, 196, 0.5); 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
 }
 
-.dropdown-custom-menu::-webkit-scrollbar {
-    display: none;
+/* Styles for dropdown options */
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-option:last-child {
+    border-bottom: none;
+}
+
+.dropdown-option:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-img {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.dropdown-text {
+    font-size: 14px;
+    color: #333;
 }
 
 .dropdown-item-container {
-    width: 400px;
     display: flex;
-    border-radius: 4px;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-}
-
-.dropdown-item-1 {
-    margin: 10px;
-}
-.dropdown-img {
-    width: 80px;
-    height: 80px;
+    justify-content: space-evenly;
 }

@@ -112,8 +112,9 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
-   
+    
+    const user = await User.findOne({ email: req.body.email });
+      
     if (!user) return next(createError(404, "User not found!"));
 
     const isPasswordCorrect = (sha256(req.body.password) === user.password)?true:false;
@@ -133,7 +134,7 @@ export const login = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ details: { ...otherDetails }});
+      .json( {...otherDetails });
   } catch (err) {
     next(err);
   }

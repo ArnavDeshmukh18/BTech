@@ -7,13 +7,13 @@ import traingle from './traingle.jpg'
 import shoulderstand from './shoulderstand.jpg'
 
 export const poseImages = {
-    Tree: tree,
-    Cobra: cobra,
-    Dog: dog,
-    Warrior: warrior,
-    Chair: chair,
-    Traingle: traingle,
-    Shoulderstand: shoulderstand
+    Vrikshasana: tree,
+    Bhujangasana: cobra,
+    Adhomukhasvanasana: dog,
+    Virabhadrasana: warrior,
+    Utkatasana: chair,
+    Trikonasana: traingle,
+    Sarvangasana: shoulderstand
 } 
 
 
