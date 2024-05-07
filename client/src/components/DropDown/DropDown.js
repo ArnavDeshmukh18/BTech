@@ -27,11 +27,7 @@ export default function DropDown({ poseList, currentPose, setCurrentPose }) {
                         <li key={pose} onClick={() => setCurrentPose(pose)}>
                             <div className="dropdown-item-container">
                                 <p className="dropdown-item-1">{pose}</p>
-                                {/* <img
-                                    src={poseImages[pose]}
-                                    className="dropdown-img"
-                                    alt={pose}
-                                /> */}
+                              
                             </div>
                         </li>
                     ))}

@@ -7,9 +7,10 @@ import { count } from '../../utils/music';
 import Instructions from '../../components/Instrctions/Instructions';
 import './Yoga.css'
 import DropDown from '../../components/DropDown/DropDown';
-import { poseImages } from '../../utils/pose_images';
 import { POINTS, keypointConnections } from '../../utils/data';
 import { drawPoint, drawSegment } from '../../utils/helper'
+import config from '../../hooks/config';
+import { Link, useNavigate, useNavigation } from 'react-router-dom';
 
 
 
@@ -23,7 +24,7 @@ let flag = false
 function Yoga() {
   const webcamRef = useRef(null)
   const canvasRef = useRef(null)
-  
+  const navigate=useNavigate()
 
   const [startingTime, setStartingTime] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
@@ -31,7 +32,7 @@ function Yoga() {
   const [bestPerform, setBestPerform] = useState(0)
   const [currentPose, setCurrentPose] = useState('Vrikshasana')
   const [isStartPose, setIsStartPose] = useState(false)
-
+  const [textTospeech,setTextTospeech]=useState(true)
   
   useEffect(() => {
     const timeDiff = (currentTime - startingTime)/1000
@@ -40,8 +41,29 @@ function Yoga() {
     }
     if((currentTime - startingTime)/1000 > bestPerform) {
       setBestPerform(timeDiff)
+     console.log(timeDiff)
+     console.log(currentPose)
+     postRecord(timeDiff)
     }
   }, [currentTime])
+
+  const postRecord=async(timeDiff)=>{
+    try{
+      const user=config()
+      const response = await fetch(`http://localhost:8800/api/record/postrecord`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ poseId: CLASS_NO[currentPose] ,userId:user._id,bestTime:timeDiff})
+      });
+      const data = await response.json();
+      console.log(data)
+    }catch(err)
+    {
+      console.log(err)
+    }
+  }
 
 
   useEffect(() => {
@@ -55,16 +77,25 @@ function Yoga() {
   
 
   const CLASS_NO = {
-    Chair: 0,
-    Cobra: 1,
-    Dog: 2,
+    Utkatasana: 0,
+    Bhujangasana: 1,
+    Adhomukhasvanasana: 2,
     No_Pose: 3,
-    Shoulderstand: 4,
+    Sarvangasana: 4,
     Traingle: 5,
     Vrikshasana: 6,
-    Warrior: 7,
+    Virabhadrasana: 7,
   }
 
+  const gotoPage=()=>{
+    console.log(currentPose)
+console.log(CLASS_NO[currentPose])
+    navigate("/leaderboard",{
+      state:{
+        poseId:CLASS_NO[currentPose]
+      }
+    })
+  }
   function get_center_point(landmarks, left_bodypart, right_bodypart) {
     let left = tf.gather(landmarks, left_bodypart, 1)
     let right = tf.gather(landmarks, right_bodypart, 1)
@@ -165,7 +196,7 @@ function Yoga() {
 
         classification.array().then((data) => {         
           const classNo = CLASS_NO[currentPose]
-          console.log(data[0][classNo])
+          
           if(data[0][classNo] > 0.97) {
             
             if(!flag) {
@@ -192,11 +223,15 @@ function Yoga() {
 
   function startYoga(){
     setIsStartPose(true) 
+    setStartingTime(false)
     runMovenet()
   } 
 
   function stopPose() {
+   
     setIsStartPose(false)
+    
+
     clearInterval(interval)
   }
 
@@ -270,11 +305,22 @@ function Yoga() {
       />
       <Instructions
           currentPose={currentPose}
+          // textTospeech={textTospeech}
         />
-      <button
+        <div>
+        <button
           onClick={startYoga}
           className="secondary-btn"    
         >Start Pose</button>
+
+
+<Link to={`/leaderboard/${CLASS_NO[currentPose]}`}><button
+          
+          className="secondary-btn"    
+        >Leaderboard</button></Link>
+
+        </div>
+     
     </div>
   )
 }

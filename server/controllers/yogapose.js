@@ -1,4 +1,4 @@
-import YogaPose from "../models/YogaPose";
+import YogaPose from "../models/YogaPose.js";
 
 
 export const createYoga = async (req, res, next) => {

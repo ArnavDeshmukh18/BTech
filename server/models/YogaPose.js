@@ -1,22 +1,16 @@
 import mongoose from "mongoose";
 const YogaSchema=new mongoose.Schema(
-    {
+    { 
+          id:{
+               type:String,
+               required:true,
+               unique:true
+          } ,     
         name: {
             type: String,
             required: true,
             unique: true,
-          },
-          img: {
-            type: String,
-            required: true,
-            unique: true,
-          },
-          info:{
-            type:String,
-            required: true,
-            unique: true,
-          },
-         
+          }
         
     }
 )

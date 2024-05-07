@@ -95,6 +95,7 @@ function sha256(ascii) {
 };
 export const register = async (req, res, next) => {
   try {
+    console.log("erereeree")
 
     const newUser = new User({
       ...req.body,
@@ -103,7 +104,9 @@ export const register = async (req, res, next) => {
     });
 
     await newUser.save();
-    res.status(200).send("User has been created.");
+    const user = await User.findOne({ email: req.body.email });
+   const userDoc=user._doc;
+    res.status(200).json(userDoc);
   } catch (err) {
     next(err);
   }

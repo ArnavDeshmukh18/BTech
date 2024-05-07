@@ -2,7 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
-;
+import recordRoute from "./routes/record.js"
+import yogaRoute from './routes/yogapose.js'
+import userRoute from './routes/user.js'
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const app=express();
@@ -29,6 +31,9 @@ const connect = async () => {
   app.use(express.json());
   
   app.use("/api/auth", authRoute);
+  app.use("/api/record",recordRoute);
+  app.use("/api/yogapose",yogaRoute);
+  app.use("/api/user",userRoute)
   
   
 app.use((err, req, res, next) => {

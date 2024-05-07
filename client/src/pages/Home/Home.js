@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import './Home.css';
+import config from '../../hooks/config';
 
 export default function Home() {
     const [user, setUser] = useState({});
+   const navigate=useNavigate()
+           
+    useEffect(()=>{
+    const id=config()
+    if(!id){navigate("/login")}
+    },[])
    
     return (
         <div className="container">
